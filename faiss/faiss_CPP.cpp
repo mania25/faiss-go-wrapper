@@ -3,6 +3,7 @@
 //
 
 #include "faiss_CPP.h"
+#include "faiss/index_io.h"
 #include <iostream>
 
 cxxFaissProductClusteringDB::cxxFaissProductClusteringDB(int dimension, int nClusters) {
@@ -34,4 +35,8 @@ void cxxFaissProductClusteringDB::AddNewVector(int sizeOfDatabase, int pids[], f
 
 int cxxFaissProductClusteringDB::GetVectorTotal() {
     return indexIVFFlat->ntotal;
+}
+
+void cxxFaissProductClusteringDB::DumpFaissDB(char fileName[]) {
+    faiss::write_index(indexFlatL2, fileName);
 }

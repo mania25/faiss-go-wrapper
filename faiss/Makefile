@@ -3,6 +3,9 @@ CFLAGS += -Iinclude -Ilib -lstdc++ -lfaiss
 
 TARGET_EXAMPLE = c_faiss_example
 
+install: libfaiss-wrapper.a
+	sudo cp lib/libfaiss-wrapper.a /usr/local/lib
+
 libfaiss-wrapper.a: faiss_C.o faiss_CPP.o
 	ar rcs lib/$@ lib/*.o
 

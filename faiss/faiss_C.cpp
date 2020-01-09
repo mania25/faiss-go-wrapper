@@ -39,3 +39,8 @@ int GetVectorTotal(FaissProductClusteringDB fdb) {
     cxxFaissProductClusteringDB *faissProductClusteringDb = (cxxFaissProductClusteringDB*)fdb;
     return faissProductClusteringDb->GetVectorTotal();
 }
+
+void DumpFaissDB(FaissProductClusteringDB fdb, char fileName[]) {
+    cxxFaissProductClusteringDB *faissProductClusteringDb = (cxxFaissProductClusteringDB*)fdb;
+    faissProductClusteringDb->DumpFaissDB(fileName);
+}

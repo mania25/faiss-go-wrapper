@@ -1,8 +1,8 @@
 package main
 
-// #cgo CPPFLAGS: -Ifaiss/include/
-// #cgo LDFLAGS: -L${SRCDIR}/faiss/lib -lfaiss-wrapper -lfaiss -lstdc++
-// #cgo LDFLAGS: -Wl,-rpath ${SRCDIR}/faiss/lib
+// #cgo CPPFLAGS: -I/usr/local/include
+// #cgo LDFLAGS: -L/usr/local/lib -lfaiss-wrapper -lfaiss -lstdc++
+// #cgo LDFLAGS: -Wl,-rpath /usr/local/lib
 //
 // typedef void* FaissProductClusteringDB;
 // FaissProductClusteringDB getFaissProductClusteringDB( int dimension, int nClusters );
@@ -34,11 +34,11 @@ func (f GoFaiss) InitFaissDB() {
 	C.InitFaissDB(f.faiss)
 }
 
-func (f GoFaiss) PushTrainDataVector(vectors []C.float)  {
+func (f GoFaiss) PushTrainDataVector(vectors []C.float) {
 	C.PushTrainDataVector(f.faiss, &vectors[0])
 }
 
-func (f GoFaiss) BuildIndex()  {
+func (f GoFaiss) BuildIndex() {
 	log.Println("Building FAISS index. . .")
 	C.BuildIndex(f.faiss)
 }

@@ -23,6 +23,7 @@ public:
     int GetTrainDataSize();
     void AddNewVector(int sizeOfDatabase, int pids[], float vectorsFloat[]);
     int GetVectorTotal();
+    void DumpFaissDB(char fileName[]);
 };
 
 #endif // _FAISS_PRODUCT_CLUSTERING_FAISS_HPP

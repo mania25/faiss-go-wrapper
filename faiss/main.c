@@ -13,6 +13,7 @@ int main() {
     printf("Total train dataset: %d\n", GetTrainDataSize(faissDBInstance));
 
     BuildIndex(faissDBInstance);
+    DumpFaissDB(faissDBInstance, "dump.index");
 
     return 0;
 }

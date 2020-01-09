@@ -18,6 +18,7 @@
         int GetTrainDataSize(FaissProductClusteringDB);
         void AddNewVector(FaissProductClusteringDB, int sizeOfDatabase, int pids[], float vectorsFloat[]);
         int GetVectorTotal(FaissProductClusteringDB);
+        void DumpFaissDB(FaissProductClusteringDB, char fileName[]);
 
     #ifdef __cplusplus
     }
