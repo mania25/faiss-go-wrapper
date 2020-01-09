@@ -12,6 +12,7 @@
 
         typedef void* FaissProductClusteringDB;
         FaissProductClusteringDB getFaissProductClusteringDB( int dimension, int nClusters );
+        void ReadFaissDBFromFile(FaissProductClusteringDB, char fileName[]);
         void InitFaissDB(FaissProductClusteringDB);
         void BuildIndex(FaissProductClusteringDB);
         void PushTrainDataVector(FaissProductClusteringDB, float vectors[]);

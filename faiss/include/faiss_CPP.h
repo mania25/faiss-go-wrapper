@@ -17,6 +17,7 @@ private:
     std::vector<float*> listOfTrainVectors;
 public:
     cxxFaissProductClusteringDB(int dimension, int nClusters);
+    void ReadFaissDBFromFile(char fileName[]);
     void InitFaissDB();
     void BuildIndex();
     void PushTrainDataVector(float vectors[]);

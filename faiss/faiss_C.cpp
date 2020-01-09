@@ -10,6 +10,11 @@ FaissProductClusteringDB getFaissProductClusteringDB( int dimension, int nCluste
     return (void*)faissProductClusteringDb;
 }
 
+void ReadFaissDBFromFile(FaissProductClusteringDB fdb, char fileName[]) {
+    cxxFaissProductClusteringDB *faissProductClusteringDb = (cxxFaissProductClusteringDB*)fdb;
+    faissProductClusteringDb->ReadFaissDBFromFile(fileName);
+}
+
 void InitFaissDB(FaissProductClusteringDB fdb) {
     cxxFaissProductClusteringDB *faissProductClusteringDb = (cxxFaissProductClusteringDB*)fdb;
     faissProductClusteringDb->InitFaissDB();

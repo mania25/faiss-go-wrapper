@@ -11,6 +11,10 @@ cxxFaissProductClusteringDB::cxxFaissProductClusteringDB(int dimension, int nClu
     this->nClusters = nClusters;
 }
 
+void cxxFaissProductClusteringDB::ReadFaissDBFromFile(char *fileName) {
+    indexIVFFlat = (faiss::IndexIVFFlat*)(faiss::read_index(fileName, faiss::IO_FLAG_MMAP));
+}
+
 void cxxFaissProductClusteringDB::InitFaissDB() {
     indexFlatL2 = new faiss::IndexFlatL2(this->dimension);
     indexIVFFlat = new faiss::IndexIVFFlat(indexFlatL2, this->dimension, this->nClusters, faiss::METRIC_L2);
@@ -40,3 +44,4 @@ int cxxFaissProductClusteringDB::GetVectorTotal() {
 void cxxFaissProductClusteringDB::DumpFaissDB(char fileName[]) {
     faiss::write_index(indexFlatL2, fileName);
 }
+
