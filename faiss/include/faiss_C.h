@@ -11,7 +11,7 @@
     #endif
 
         typedef void* FaissProductClusteringDB;
-        FaissProductClusteringDB getFaissProductClusteringDB( int dimension, int nClusters );
+        FaissProductClusteringDB getFaissProductClusteringDB(int dimension, char *faissIndexType);
         void ReadFaissDBFromFile(FaissProductClusteringDB, char fileName[]);
         void InitFaissDB(FaissProductClusteringDB);
         void BuildIndex(FaissProductClusteringDB);
