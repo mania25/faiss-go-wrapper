@@ -17,7 +17,7 @@ void cxxFaissProductClusteringDB::ReadFaissDBFromFile(char *fileName) {
 }
 
 void cxxFaissProductClusteringDB::InitFaissDB() {
-    faissIndex = faiss::index_factory(this->dimension, faissIndexType, faiss::METRIC_L2);
+    faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, faiss::METRIC_L2);
     faissIndex->verbose = true;
 }
 
