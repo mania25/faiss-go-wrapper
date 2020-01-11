@@ -5,6 +5,7 @@
 #include "faiss_CPP.h"
 #include "faiss/index_factory.h"
 #include "faiss/index_io.h"
+#include "faiss/AuxIndexStructures.h"
 
 cxxFaissProductClusteringDB::cxxFaissProductClusteringDB(int dimension, char *faissIndexType) {
     this->dimension = dimension;
@@ -37,11 +38,30 @@ void cxxFaissProductClusteringDB::AddNewVector(int sizeOfDatabase, int pids[], f
     faissIndex->add_with_ids(sizeOfDatabase, vectors, (int64_t *) pids);
 }
 
+cxxFaissProductClusteringDB::vectorResult
+cxxFaissProductClusteringDB::SearchVector(int numOfQuery, float vectors[], int kTotal) {
+    auto result = vectorResult();
+
+    faissIndex->search(numOfQuery, vectors, kTotal, result.distance,
+                       reinterpret_cast<faiss::Index::idx_t *>(result.pids));
+    return result;
+}
+
+
+void cxxFaissProductClusteringDB::DeleteVectorsByIDs(int pids[]) {
+    int pidsLen = sizeof(pids) / sizeof(*pids);
+    faissIndex->remove_ids(faiss::IDSelectorBatch(pidsLen, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
+}
+
 int cxxFaissProductClusteringDB::GetVectorTotal() {
     return faissIndex->ntotal;
 }
 
 void cxxFaissProductClusteringDB::DumpFaissDB(char fileName[]) {
     faiss::write_index(faissIndex, fileName);
+}
+
+void cxxFaissProductClusteringDB::ResetIndex() {
+    faissIndex->reset();
 }
 

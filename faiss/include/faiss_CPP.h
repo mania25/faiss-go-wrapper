@@ -2,7 +2,6 @@
 // Created by Abdurrahman on 07/01/20.
 //
 
-#include <faiss/Clustering.h>
 #include "faiss/IndexFlat.h"
 
 #ifndef _FAISS_PRODUCT_CLUSTERING_FAISS_HPP
@@ -15,6 +14,11 @@ private:
     faiss::Index *faissIndex;
     std::vector<float *> listOfTrainVectors;
 public:
+    struct vectorResult {
+        float *distance;
+        float *pids;
+    };
+
     cxxFaissProductClusteringDB(int dimension, char *faissIndexType);
 
     void ReadFaissDBFromFile(char fileName[]);
@@ -29,9 +33,15 @@ public:
 
     void AddNewVector(int sizeOfDatabase, int pids[], float vectorsFloat[]);
 
+    vectorResult SearchVector(int numOfQuery, float vectors[], int kTotal);
+
+    void DeleteVectorsByIDs(int pids[]);
+
     int GetVectorTotal();
 
     void DumpFaissDB(char fileName[]);
+
+    void ResetIndex();
 };
 
 #endif // _FAISS_PRODUCT_CLUSTERING_FAISS_HPP

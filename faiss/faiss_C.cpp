@@ -40,6 +40,22 @@ void AddNewVector(FaissProductClusteringDB fdb, int sizeOfDatabase, int pids[], 
     faissProductClusteringDb->AddNewVector(sizeOfDatabase, pids, vectorsFloat);
 }
 
+vectorResult SearchVector(FaissProductClusteringDB fdb, int numOfQuery, float vectors[], int kTotal) {
+    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
+
+    auto cResult = vectorResult();
+    auto cppVectorResults = faissProductClusteringDb->SearchVector(numOfQuery, vectors, kTotal);
+
+    cResult.distance = cppVectorResults.distance;
+    cResult.pids = cppVectorResults.pids;
+    return cResult;
+}
+
+void DeleteVectorsByIDs(FaissProductClusteringDB fdb, int pids[]) {
+    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
+    faissProductClusteringDb->DeleteVectorsByIDs(pids);
+}
+
 int GetVectorTotal(FaissProductClusteringDB fdb) {
     auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
     return faissProductClusteringDb->GetVectorTotal();
@@ -48,4 +64,9 @@ int GetVectorTotal(FaissProductClusteringDB fdb) {
 void DumpFaissDB(FaissProductClusteringDB fdb, char fileName[]) {
     auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
     faissProductClusteringDb->DumpFaissDB(fileName);
+}
+
+void ResetIndex(FaissProductClusteringDB fdb) {
+    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
+    faissProductClusteringDb->ResetIndex();
 }
