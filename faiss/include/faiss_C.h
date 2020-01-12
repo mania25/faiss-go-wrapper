@@ -14,6 +14,7 @@
             float *distance;
             float *pids;
         };
+        typedef struct vectorResult vectorResult;
         typedef void* FaissProductClusteringDB;
         FaissProductClusteringDB getFaissProductClusteringDB(int dimension, char *faissIndexType);
         void ReadFaissDBFromFile(FaissProductClusteringDB, char fileName[]);

@@ -19,6 +19,8 @@ public:
         float *pids;
     };
 
+    typedef struct vectorResult vectorResult;
+
     cxxFaissProductClusteringDB(int dimension, char *faissIndexType);
 
     void ReadFaissDBFromFile(char fileName[]);
