@@ -14,13 +14,6 @@ private:
     faiss::Index *faissIndex;
     std::vector<float *> listOfTrainVectors;
 public:
-    struct vectorResult {
-        float *distance;
-        float *pids;
-    };
-
-    typedef struct vectorResult vectorResult;
-
     cxxFaissProductClusteringDB(int dimension, char *faissIndexType);
 
     void ReadFaissDBFromFile(char fileName[]);
@@ -35,7 +28,7 @@ public:
 
     void AddNewVector(int sizeOfDatabase, int pids[], float vectorsFloat[]);
 
-    vectorResult SearchVector(int numOfQuery, float vectors[], int kTotal);
+    void SearchVector(int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
 
     void DeleteVectorsByIDs(int pids[]);
 

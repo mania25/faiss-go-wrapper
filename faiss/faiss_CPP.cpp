@@ -38,13 +38,10 @@ void cxxFaissProductClusteringDB::AddNewVector(int sizeOfDatabase, int pids[], f
     faissIndex->add_with_ids(sizeOfDatabase, vectors, (int64_t *) pids);
 }
 
-cxxFaissProductClusteringDB::vectorResult
-cxxFaissProductClusteringDB::SearchVector(int numOfQuery, float vectors[], int kTotal) {
-    auto result = vectorResult();
-
-    faissIndex->search(numOfQuery, vectors, kTotal, result.distance,
-                       reinterpret_cast<faiss::Index::idx_t *>(result.pids));
-    return result;
+void
+cxxFaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kTotal, float distances[], int64_t pids[]) {
+    faissIndex->search(numOfQuery, vectors, kTotal, distances,
+                       pids);
 }
 
 void cxxFaissProductClusteringDB::DeleteVectorsByIDs(int pids[]) {

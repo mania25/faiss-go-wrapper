@@ -5,16 +5,13 @@
 #ifndef _FAISS_C_H
 #define _FAISS_C_H
 
+#include <cstdint>
+
 #ifdef __cplusplus
     extern "C"
     {
     #endif
 
-        struct vectorResult {
-            float *distance;
-            float *pids;
-        };
-        typedef struct vectorResult vectorResult;
         typedef void* FaissProductClusteringDB;
         FaissProductClusteringDB getFaissProductClusteringDB(int dimension, char *faissIndexType);
         void ReadFaissDBFromFile(FaissProductClusteringDB, char fileName[]);
@@ -23,7 +20,7 @@
         void PushTrainDataVector(FaissProductClusteringDB, float vectors[]);
         int GetTrainDataSize(FaissProductClusteringDB);
         void AddNewVector(FaissProductClusteringDB, int sizeOfDatabase, int pids[], float vectorsFloat[]);
-        vectorResult SearchVector(FaissProductClusteringDB, int numOfQuery, float vectors[], int kTotal);
+        void SearchVector(FaissProductClusteringDB, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
         void DeleteVectorsByIDs(FaissProductClusteringDB, int pids[]);
         int GetVectorTotal(FaissProductClusteringDB);
         void DumpFaissDB(FaissProductClusteringDB, char fileName[]);

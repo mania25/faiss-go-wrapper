@@ -40,15 +40,9 @@ void AddNewVector(FaissProductClusteringDB fdb, int sizeOfDatabase, int pids[], 
     faissProductClusteringDb->AddNewVector(sizeOfDatabase, pids, vectorsFloat);
 }
 
-vectorResult SearchVector(FaissProductClusteringDB fdb, int numOfQuery, float vectors[], int kTotal) {
+void SearchVector(FaissProductClusteringDB fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]) {
     auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-
-    auto cResult = vectorResult();
-    auto cppVectorResults = faissProductClusteringDb->SearchVector(numOfQuery, vectors, kTotal);
-
-    cResult.distance = cppVectorResults.distance;
-    cResult.pids = cppVectorResults.pids;
-    return cResult;
+    faissProductClusteringDb->SearchVector(numOfQuery, vectors, kTotal, distances, pids);
 }
 
 void DeleteVectorsByIDs(FaissProductClusteringDB fdb, int pids[]) {
