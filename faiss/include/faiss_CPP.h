@@ -30,6 +30,8 @@ public:
 
     void SearchVector(int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
 
+    void SearchVectorByID(int64_t pid, float vectors[]);
+
     void DeleteVectorsByIDs(int pids[]);
 
     int GetVectorTotal();

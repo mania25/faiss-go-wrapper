@@ -21,6 +21,7 @@
         int GetTrainDataSize(FaissProductClusteringDB);
         void AddNewVector(FaissProductClusteringDB, int sizeOfDatabase, int pids[], float vectorsFloat[]);
         void SearchVector(FaissProductClusteringDB, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
+        void SearchVectorByID(FaissProductClusteringDB, int64_t pid, float vectors[]);
         void DeleteVectorsByIDs(FaissProductClusteringDB, int pids[]);
         int GetVectorTotal(FaissProductClusteringDB);
         void DumpFaissDB(FaissProductClusteringDB, char fileName[]);

@@ -44,6 +44,10 @@ cxxFaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kT
                        pids);
 }
 
+void cxxFaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
+    faissIndex->reconstruct(pid, vectors);
+}
+
 void cxxFaissProductClusteringDB::DeleteVectorsByIDs(int pids[]) {
     auto pidsLen = *(&pids + 1) - pids;
     faissIndex->remove_ids(faiss::IDSelectorBatch(pidsLen, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
@@ -60,4 +64,5 @@ void cxxFaissProductClusteringDB::DumpFaissDB(char fileName[]) {
 void cxxFaissProductClusteringDB::ResetIndex() {
     faissIndex->reset();
 }
+
 
