@@ -5,7 +5,7 @@
 #include "faiss_CPP.h"
 #include "faiss/index_factory.h"
 #include "faiss/index_io.h"
-#include "faiss/AuxIndexStructures.h"
+#include "faiss/impl/AuxIndexStructures.h"
 
 cxxFaissProductClusteringDB::cxxFaissProductClusteringDB(int dimension, char *faissIndexType) {
     this->dimension = dimension;
