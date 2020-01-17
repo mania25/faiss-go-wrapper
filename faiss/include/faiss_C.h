@@ -18,6 +18,7 @@
         void InitFaissDB(FaissProductClusteringDB);
         void BuildIndex(FaissProductClusteringDB);
         void PushTrainDataVector(FaissProductClusteringDB, float vectors[]);
+        void ValidateTrainDataset(FaissProductClusteringDB);
         int GetTrainDataSize(FaissProductClusteringDB);
         void AddNewVector(FaissProductClusteringDB, int sizeOfDatabase, int pids[], float vectorsFloat[]);
         void SearchVector(FaissProductClusteringDB, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);

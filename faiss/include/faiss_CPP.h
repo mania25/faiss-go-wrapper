@@ -24,6 +24,8 @@ public:
 
     void PushTrainDataVector(float vectors[]);
 
+    void ValidateTrainDataset();
+
     int GetTrainDataSize();
 
     void AddNewVector(int sizeOfDatabase, int pids[], float vectorsFloat[]);

@@ -2,6 +2,7 @@
 // Created by Abdurrahman on 07/01/20.
 //
 
+#include <iostream>
 #include "faiss_CPP.h"
 #include "faiss/index_factory.h"
 #include "faiss/index_io.h"
@@ -28,6 +29,16 @@ void cxxFaissProductClusteringDB::BuildIndex() {
 
 void cxxFaissProductClusteringDB::PushTrainDataVector(float *vectors) {
     listOfTrainVectors.push_back(vectors);
+}
+
+void cxxFaissProductClusteringDB::ValidateTrainDataset() {
+    for (int i = 0; i < listOfTrainVectors.size(); ++i) {
+        float * data = listOfTrainVectors[0];
+        if (!std::isfinite(*data)){
+            printf("Invalid vectors data, Got: %f", *data);
+            return;
+        }
+    }
 }
 
 int cxxFaissProductClusteringDB::GetTrainDataSize() {

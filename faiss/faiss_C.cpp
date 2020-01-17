@@ -30,6 +30,11 @@ void PushTrainDataVector(FaissProductClusteringDB fdb, float vectors[]) {
     faissProductClusteringDb->PushTrainDataVector(vectors);
 }
 
+void ValidateTrainDataset(FaissProductClusteringDB fdb) {
+    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
+    faissProductClusteringDb->ValidateTrainDataset();
+}
+
 int GetTrainDataSize(FaissProductClusteringDB fdb) {
     auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
     return faissProductClusteringDb->GetTrainDataSize();
