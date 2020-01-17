@@ -35,7 +35,7 @@ void cxxFaissProductClusteringDB::ValidateTrainDataset() {
     for (int i = 0; i < listOfTrainVectors.size(); ++i) {
         float *data = &listOfTrainVectors[i];
 
-        for (int j = 0; j < dimension; ++j) {
+        for (int j = 0; j < listOfTrainVectors.size() * dimension; ++j) {
             if (!std::isfinite(data[j])){
                 printf("Invalid vectors data, Got: %f", data[j]);
                 return;
