@@ -24,19 +24,22 @@ void cxxFaissProductClusteringDB::InitFaissDB() {
 }
 
 void cxxFaissProductClusteringDB::BuildIndex() {
-    faissIndex->train(listOfTrainVectors.size(), *listOfTrainVectors.data());
+    faissIndex->train(listOfTrainVectors.size(), listOfTrainVectors.data());
 }
 
 void cxxFaissProductClusteringDB::PushTrainDataVector(float *vectors) {
-    listOfTrainVectors.push_back(vectors);
+    listOfTrainVectors.push_back(*vectors);
 }
 
 void cxxFaissProductClusteringDB::ValidateTrainDataset() {
     for (int i = 0; i < listOfTrainVectors.size(); ++i) {
-        float * data = listOfTrainVectors[0];
-        if (!std::isfinite(*data)){
-            printf("Invalid vectors data, Got: %f", *data);
-            return;
+        float *data = &listOfTrainVectors[i];
+
+        for (int j = 0; j < dimension; ++j) {
+            if (!std::isfinite(data[j])){
+                printf("Invalid vectors data, Got: %f", data[j]);
+                return;
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ private:
     int dimension;
     char *faissIndexType;
     faiss::Index *faissIndex;
-    std::vector<float *> listOfTrainVectors;
+    std::vector<float> listOfTrainVectors;
 public:
     cxxFaissProductClusteringDB(int dimension, char *faissIndexType);
 
