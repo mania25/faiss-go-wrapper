@@ -2,7 +2,7 @@
 // Created by Abdurrahman on 07/01/20.
 //
 
-#include <iostream>
+#include <math.h>
 #include "faiss_CPP.h"
 #include "faiss/index_factory.h"
 #include "faiss/index_io.h"
