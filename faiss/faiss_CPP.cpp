@@ -14,21 +14,21 @@ cxxFaissProductClusteringDB::cxxFaissProductClusteringDB(int dimension, char *fa
 }
 
 void cxxFaissProductClusteringDB::ReadFaissDBFromFile(char *fileName) {
-    faissIndex = faiss::read_index(fileName);
-    faissIndex->verbose = true;
+    this->faissIndex = faiss::read_index(fileName);
+    this->faissIndex->verbose = true;
 }
 
 void cxxFaissProductClusteringDB::InitFaissDB() {
-    faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, faiss::METRIC_L2);
-    faissIndex->verbose = true;
+    this->faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, faiss::METRIC_L2);
+    this->faissIndex->verbose = true;
 }
 
 void cxxFaissProductClusteringDB::BuildIndex() {
-    faissIndex->train(listOfTrainVectors.size(), listOfTrainVectors.data());
+    this->faissIndex->train(this->listOfTrainVectors.size(), this->listOfTrainVectors.data());
 }
 
 void cxxFaissProductClusteringDB::PushTrainDataVector(float *vectors) {
-    listOfTrainVectors.push_back(*vectors);
+    this->listOfTrainVectors.push_back(*vectors);
 }
 
 void cxxFaissProductClusteringDB::ValidateTrainDataset() {
@@ -45,38 +45,38 @@ void cxxFaissProductClusteringDB::ValidateTrainDataset() {
 }
 
 int cxxFaissProductClusteringDB::GetTrainDataSize() {
-    return listOfTrainVectors.size();
+    return this->listOfTrainVectors.size();
 }
 
 void cxxFaissProductClusteringDB::AddNewVector(int sizeOfDatabase, int pids[], float vectors[]) {
-    faissIndex->add_with_ids(sizeOfDatabase, vectors, (int64_t *) pids);
+    this->faissIndex->add_with_ids(sizeOfDatabase, vectors, (int64_t *) pids);
 }
 
 void
 cxxFaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kTotal, float distances[], int64_t pids[]) {
-    faissIndex->search(numOfQuery, vectors, kTotal, distances,
+    this->faissIndex->search(numOfQuery, vectors, kTotal, distances,
                        pids);
 }
 
 void cxxFaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
-    faissIndex->reconstruct(pid, vectors);
+    this->faissIndex->reconstruct(pid, vectors);
 }
 
 void cxxFaissProductClusteringDB::DeleteVectorsByIDs(int pids[]) {
     auto pidsLen = *(&pids + 1) - pids;
-    faissIndex->remove_ids(faiss::IDSelectorBatch(pidsLen, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
+    this->faissIndex->remove_ids(faiss::IDSelectorBatch(pidsLen, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
 }
 
 int cxxFaissProductClusteringDB::GetVectorTotal() {
-    return faissIndex->ntotal;
+    return this->faissIndex->ntotal;
 }
 
 void cxxFaissProductClusteringDB::DumpFaissDB(char fileName[]) {
-    faiss::write_index(faissIndex, fileName);
+    faiss::write_index(this->faissIndex, fileName);
 }
 
 void cxxFaissProductClusteringDB::ResetIndex() {
-    faissIndex->reset();
+    this->faissIndex->reset();
 }
 
 
