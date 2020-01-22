@@ -5,28 +5,28 @@
 #ifndef _FAISS_C_H
 #define _FAISS_C_H
 
-#include <cstdint>
+#include <stdint.h>
 
 #ifdef __cplusplus
     extern "C"
     {
     #endif
 
-        typedef void* FaissProductClusteringDB;
-        FaissProductClusteringDB getFaissProductClusteringDB(int dimension, char *faissIndexType);
-        void ReadFaissDBFromFile(FaissProductClusteringDB, char fileName[]);
-        void InitFaissDB(FaissProductClusteringDB);
-        void BuildIndex(FaissProductClusteringDB);
-        void PushTrainDataVector(FaissProductClusteringDB, float vectors[]);
-        void ValidateTrainDataset(FaissProductClusteringDB);
-        int GetTrainDataSize(FaissProductClusteringDB);
-        void AddNewVector(FaissProductClusteringDB, int sizeOfDatabase, int pids[], float vectorsFloat[]);
-        void SearchVector(FaissProductClusteringDB, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
-        void SearchVectorByID(FaissProductClusteringDB, int64_t pid, float vectors[]);
-        void DeleteVectorsByIDs(FaissProductClusteringDB, int pids[]);
-        int GetVectorTotal(FaissProductClusteringDB);
-        void DumpFaissDB(FaissProductClusteringDB, char fileName[]);
-        void ResetIndex(FaissProductClusteringDB);
+        typedef struct FaissProductClusteringDB FaissProductClusteringDB;
+        FaissProductClusteringDB* newFaissProductClusteringDB(int dimension, char *faissIndexType);
+        void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[]);
+        void InitFaissDB(FaissProductClusteringDB* fdb);
+        void BuildIndex(FaissProductClusteringDB* fdb, int numOfTrainDataset);
+        void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]);
+        void ValidateTrainDataset(FaissProductClusteringDB* fdb);
+        unsigned long GetTrainDataSize(FaissProductClusteringDB* fdb);
+        void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, int pids[], float vectorsFloat[]);
+        void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
+        void SearchVectorByID(FaissProductClusteringDB* fdb, int64_t pid, float vectors[]);
+        void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, int pids[]);
+        int GetVectorTotal(FaissProductClusteringDB* fdb);
+        void DumpFaissDB(FaissProductClusteringDB* fdb, char fileName[]);
+        void ResetIndex(FaissProductClusteringDB* fdb);
 
     #ifdef __cplusplus
     }

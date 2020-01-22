@@ -7,26 +7,26 @@
 #ifndef _FAISS_PRODUCT_CLUSTERING_FAISS_HPP
 #define _FAISS_PRODUCT_CLUSTERING_FAISS_HPP
 
-class cxxFaissProductClusteringDB {
+class FaissProductClusteringDB {
 private:
     int dimension;
-    char *faissIndexType;
+    const char *faissIndexType;
     faiss::Index *faissIndex;
     std::vector<float> listOfTrainVectors;
 public:
-    cxxFaissProductClusteringDB(int dimension, char *faissIndexType);
+    FaissProductClusteringDB(int dimension, const char *faissIndexType);
 
     void ReadFaissDBFromFile(char fileName[]);
 
     void InitFaissDB();
 
-    void BuildIndex();
+    void BuildIndex(int numOfTrainDataset);
 
-    void PushTrainDataVector(float vectors[]);
+    void PushTrainDataVector(const float vectors[]);
 
     void ValidateTrainDataset();
 
-    int GetTrainDataSize();
+    u_long GetTrainDataSize();
 
     void AddNewVector(int sizeOfDatabase, int pids[], float vectorsFloat[]);
 
@@ -38,7 +38,7 @@ public:
 
     int GetVectorTotal();
 
-    void DumpFaissDB(char fileName[]);
+    void DumpFaissDB(const char fileName[]);
 
     void ResetIndex();
 };

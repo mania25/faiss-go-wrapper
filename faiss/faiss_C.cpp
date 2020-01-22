@@ -5,72 +5,58 @@
 #include "faiss_C.h"
 #include "faiss_CPP.h"
 
-FaissProductClusteringDB getFaissProductClusteringDB(int dimension, char *faissIndexType) {
-    auto faissProductClusteringDb = new cxxFaissProductClusteringDB(dimension, faissIndexType);
-    return (void *) faissProductClusteringDb;
+FaissProductClusteringDB* newFaissProductClusteringDB(int dimension, char *faissIndexType) {
+    return new FaissProductClusteringDB(dimension, faissIndexType);
 }
 
-void ReadFaissDBFromFile(FaissProductClusteringDB fdb, char fileName[]) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->ReadFaissDBFromFile(fileName);
+void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[]) {
+    fdb->ReadFaissDBFromFile(fileName);
 }
 
-void InitFaissDB(FaissProductClusteringDB fdb) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->InitFaissDB();
+void InitFaissDB(FaissProductClusteringDB* fdb) {
+    fdb->InitFaissDB();
 }
 
-void BuildIndex(FaissProductClusteringDB fdb) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->BuildIndex();
+void BuildIndex(FaissProductClusteringDB* fdb, int numOfTrainDataset) {
+    fdb->BuildIndex(numOfTrainDataset);
 }
 
-void PushTrainDataVector(FaissProductClusteringDB fdb, float vectors[]) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->PushTrainDataVector(vectors);
+void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]) {
+    fdb->PushTrainDataVector(vectors);
 }
 
-void ValidateTrainDataset(FaissProductClusteringDB fdb) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->ValidateTrainDataset();
+void ValidateTrainDataset(FaissProductClusteringDB* fdb) {
+    fdb->ValidateTrainDataset();
 }
 
-int GetTrainDataSize(FaissProductClusteringDB fdb) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    return faissProductClusteringDb->GetTrainDataSize();
+unsigned long GetTrainDataSize(FaissProductClusteringDB* fdb) {
+    return fdb->GetTrainDataSize();
 }
 
-void AddNewVector(FaissProductClusteringDB fdb, int sizeOfDatabase, int pids[], float vectorsFloat[]) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->AddNewVector(sizeOfDatabase, pids, vectorsFloat);
+void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, int pids[], float vectorsFloat[]) {
+    fdb->AddNewVector(sizeOfDatabase, pids, vectorsFloat);
 }
 
-void SearchVector(FaissProductClusteringDB fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->SearchVector(numOfQuery, vectors, kTotal, distances, pids);
+void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]) {
+    fdb->SearchVector(numOfQuery, vectors, kTotal, distances, pids);
 }
 
-void SearchVectorByID(FaissProductClusteringDB fdb, int64_t pid, float vectors[]) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->SearchVectorByID(pid, vectors);
+void SearchVectorByID(FaissProductClusteringDB* fdb, int64_t pid, float vectors[]) {
+    fdb->SearchVectorByID(pid, vectors);
 }
 
-void DeleteVectorsByIDs(FaissProductClusteringDB fdb, int pids[]) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->DeleteVectorsByIDs(pids);
+void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, int pids[]) {
+    fdb->DeleteVectorsByIDs(pids);
 }
 
-int GetVectorTotal(FaissProductClusteringDB fdb) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    return faissProductClusteringDb->GetVectorTotal();
+int GetVectorTotal(FaissProductClusteringDB* fdb) {
+    return fdb->GetVectorTotal();
 }
 
-void DumpFaissDB(FaissProductClusteringDB fdb, char fileName[]) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->DumpFaissDB(fileName);
+void DumpFaissDB(FaissProductClusteringDB* fdb, char fileName[]) {
+    fdb->DumpFaissDB(fileName);
 }
 
-void ResetIndex(FaissProductClusteringDB fdb) {
-    auto *faissProductClusteringDb = (cxxFaissProductClusteringDB *) fdb;
-    faissProductClusteringDb->ResetIndex();
+void ResetIndex(FaissProductClusteringDB* fdb) {
+    fdb->ResetIndex();
 }

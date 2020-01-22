@@ -2,6 +2,7 @@ CPPFLAGS += -std=c++11 -Iinclude
 CFLAGS += -Iinclude -Ilib -lstdc++ -lfaiss
 
 TARGET_EXAMPLE = c_faiss_example
+TARGET_CPP_EXAMPLE = cpp_faiss_example
 
 install: libfaiss-wrapper.a
 	sudo cp lib/libfaiss-wrapper.a /usr/local/lib
@@ -20,5 +21,8 @@ faiss_CPP.o: faiss_CPP.cpp
 c_example:
 	gcc $(CFLAGS) -o $(TARGET_EXAMPLE) main.c lib/libfaiss-wrapper.a
 
+cpp_example:
+	g++ $(CPPFLAGS) -lfaiss -o $(TARGET_CPP_EXAMPLE) main.cpp lib/libfaiss-wrapper.a
+
 clean:
-	rm lib/*.o lib/*.a $(TARGET_EXAMPLE)
+	rm -f lib/*.o lib/*.a $(TARGET_EXAMPLE) $(TARGET_CPP_EXAMPLE)
