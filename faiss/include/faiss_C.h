@@ -5,8 +5,6 @@
 #ifndef _FAISS_C_H
 #define _FAISS_C_H
 
-#include <stdint.h>
-
 #ifdef __cplusplus
     extern "C"
     {
@@ -20,9 +18,9 @@
         void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]);
         void ValidateTrainDataset(FaissProductClusteringDB* fdb);
         unsigned long GetTrainDataSize(FaissProductClusteringDB* fdb);
-        void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, int pids[], float vectorsFloat[]);
-        void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
-        void SearchVectorByID(FaissProductClusteringDB* fdb, int64_t pid, float vectors[]);
+        void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], long long pids[], int numOfProducts);
+        void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], long long pids[]);
+        void SearchVectorByID(FaissProductClusteringDB* fdb, long long pid, float vectors[]);
         void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, int pids[]);
         int GetVectorTotal(FaissProductClusteringDB* fdb);
         void DumpFaissDB(FaissProductClusteringDB* fdb, char fileName[]);

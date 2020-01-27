@@ -7,6 +7,7 @@
 #include "faiss/index_factory.h"
 #include "faiss/index_io.h"
 #include "faiss/impl/AuxIndexStructures.h"
+#include <faiss/IVFlib.h>
 
 FaissProductClusteringDB::FaissProductClusteringDB(int dimension, const char *faissIndexType) {
     this->dimension = dimension;
@@ -14,7 +15,7 @@ FaissProductClusteringDB::FaissProductClusteringDB(int dimension, const char *fa
 }
 
 void FaissProductClusteringDB::ReadFaissDBFromFile(char *fileName) {
-    this->faissIndex = faiss::read_index(fileName);
+    this->faissIndex = faiss::read_index(fileName, faiss::IO_FLAG_MMAP);
     this->faissIndex->verbose = true;
 }
 
@@ -48,17 +49,30 @@ u_long FaissProductClusteringDB::GetTrainDataSize() {
     return static_cast<u_long>(this->listOfTrainVectors.size() / static_cast<u_long>(this->dimension));
 }
 
-void FaissProductClusteringDB::AddNewVector(int sizeOfDatabase, int pids[], float vectors[]) {
-    this->faissIndex->add_with_ids(sizeOfDatabase, vectors, (int64_t *) pids);
+void FaissProductClusteringDB::AddNewVector(int sizeOfDatabase, float vectors[], long long pids[], int numOfProducts) {
+    std::vector <float> database;
+    std::vector <long long> ids;
+
+    for (int i = 0; i < numOfProducts; ++i)  {
+        ids.push_back(pids[i]);
+    }
+
+
+    for (int i = 0; i < this->dimension; ++i) {
+        database.push_back(vectors[i]);
+    }
+
+    this->faissIndex->add_with_ids(sizeOfDatabase, database.data(), ids.data());
 }
 
-void FaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kTotal, float distances[], int64_t pids[]) {
+void FaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kTotal, float *distances, long long *pids) {
     this->faissIndex->search(numOfQuery, vectors, kTotal, distances,
                        pids);
 }
 
-void FaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
-    this->faissIndex->reconstruct(pid, vectors);
+void FaissProductClusteringDB::SearchVectorByID(long long pid, float vectors[]) {
+    faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
+    faissIndex->reconstruct(pid, vectors);
 }
 
 void FaissProductClusteringDB::DeleteVectorsByIDs(int pids[]) {
