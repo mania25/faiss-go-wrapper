@@ -24,10 +24,6 @@ void FaissProductClusteringDB::InitFaissDB() {
     this->faissIndex->verbose = true;
 }
 
-void FaissProductClusteringDB::BuildIndex(int numOfTrainDataset) {
-    this->faissIndex->train(numOfTrainDataset, this->listOfTrainVectors.data());
-}
-
 void FaissProductClusteringDB::PushTrainDataVector(const float vectors[]) {
     for (int i = 0; i < (sizeof(*vectors) / sizeof(float)) * this->dimension; ++i) {
         this->listOfTrainVectors.push_back(vectors[i]);
@@ -45,15 +41,24 @@ void FaissProductClusteringDB::ValidateTrainDataset() {
     }
 }
 
+void FaissProductClusteringDB::BuildIndex(int numOfTrainDataset) {
+    this->faissIndex->train(numOfTrainDataset, this->listOfTrainVectors.data());
+}
+
+bool FaissProductClusteringDB::GetTrainStatus() {
+    bool trainStatus = this->faissIndex->is_trained;
+    return trainStatus;
+}
+
 u_long FaissProductClusteringDB::GetTrainDataSize() {
     return static_cast<u_long>(this->listOfTrainVectors.size() / static_cast<u_long>(this->dimension));
 }
 
-void FaissProductClusteringDB::AddNewVector(int sizeOfDatabase, float vectors[], long long pids[], int numOfProducts) {
+void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], long long pids[]) {
     std::vector <float> database;
     std::vector <long long> ids;
 
-    for (int i = 0; i < numOfProducts; ++i)  {
+    for (int i = 0; i < sizeOfDatabase; ++i)  {
         ids.push_back(pids[i]);
     }
 
@@ -91,5 +96,4 @@ void FaissProductClusteringDB::DumpFaissDB(const char fileName[]) {
 void FaissProductClusteringDB::ResetIndex() {
     this->faissIndex->reset();
 }
-
 

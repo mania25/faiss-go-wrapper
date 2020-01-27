@@ -110,7 +110,7 @@ int main() {
         }
 
         pid[0] = atoll(pids[l]);
-        AddNewVector(faissProductClusteringDb, 1, vector, pid, 1);
+        AddNewVectorWithIDs(faissProductClusteringDb, 1, vector, pid);
     }
     printf("Query OK; %d row affected.\n", GetVectorTotal(faissProductClusteringDb));
 

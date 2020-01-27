@@ -20,15 +20,17 @@ public:
 
     void InitFaissDB();
 
-    void BuildIndex(int numOfTrainDataset);
-
     void PushTrainDataVector(const float vectors[]);
 
     void ValidateTrainDataset();
 
+    void BuildIndex(int numOfTrainDataset);
+
+    bool GetTrainStatus();
+
     u_long GetTrainDataSize();
 
-    void AddNewVector(int sizeOfDatabase, float vectors[], long long pids[], int numOfProducts);
+    void AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], long long pids[]);
 
     void SearchVector(int numOfQuery, float vectors[], int kTotal, float distances[], long long pids[]);
 

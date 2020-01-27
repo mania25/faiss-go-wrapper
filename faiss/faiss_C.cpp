@@ -17,10 +17,6 @@ void InitFaissDB(FaissProductClusteringDB* fdb) {
     fdb->InitFaissDB();
 }
 
-void BuildIndex(FaissProductClusteringDB* fdb, int numOfTrainDataset) {
-    fdb->BuildIndex(numOfTrainDataset);
-}
-
 void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]) {
     fdb->PushTrainDataVector(vectors);
 }
@@ -29,12 +25,20 @@ void ValidateTrainDataset(FaissProductClusteringDB* fdb) {
     fdb->ValidateTrainDataset();
 }
 
+void BuildIndex(FaissProductClusteringDB* fdb, int numOfTrainDataset) {
+    fdb->BuildIndex(numOfTrainDataset);
+}
+
+bool GetTrainStatus(FaissProductClusteringDB* fdb) {
+    return fdb->GetTrainStatus();
+}
+
 unsigned long GetTrainDataSize(FaissProductClusteringDB* fdb) {
     return fdb->GetTrainDataSize();
 }
 
-void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], long long pids[], int numOfProducts) {
-    fdb->AddNewVector(sizeOfDatabase, vectors, pids, numOfProducts);
+void AddNewVectorWithIDs(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], long long pids[]) {
+    fdb->AddNewVectorWithIDs(sizeOfDatabase, vectors, pids);
 }
 
 void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], long long pids[]) {

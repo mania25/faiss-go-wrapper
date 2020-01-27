@@ -14,11 +14,12 @@
         FaissProductClusteringDB* newFaissProductClusteringDB(int dimension, char *faissIndexType);
         void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[]);
         void InitFaissDB(FaissProductClusteringDB* fdb);
-        void BuildIndex(FaissProductClusteringDB* fdb, int numOfTrainDataset);
         void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]);
         void ValidateTrainDataset(FaissProductClusteringDB* fdb);
+        void BuildIndex(FaissProductClusteringDB* fdb, int numOfTrainDataset);
+        bool GetTrainStatus(FaissProductClusteringDB* fdb);
         unsigned long GetTrainDataSize(FaissProductClusteringDB* fdb);
-        void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], long long pids[], int numOfProducts);
+        void AddNewVectorWithIDs(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], long long pids[]);
         void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], long long pids[]);
         void SearchVectorByID(FaissProductClusteringDB* fdb, long long pid, float vectors[]);
         void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, int pids[]);
