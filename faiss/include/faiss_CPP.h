@@ -24,11 +24,13 @@ public:
 
     void ValidateTrainDataset();
 
+    u_long GetTrainDataSize();
+
     void BuildIndex(int numOfTrainDataset);
 
     bool GetTrainStatus();
 
-    u_long GetTrainDataSize();
+    void AddNewVector(int sizeOfDatabase, float vectors[]);
 
     void AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], long long pids[]);
 

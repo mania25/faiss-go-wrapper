@@ -41,6 +41,10 @@ void FaissProductClusteringDB::ValidateTrainDataset() {
     }
 }
 
+u_long FaissProductClusteringDB::GetTrainDataSize() {
+    return static_cast<u_long>(this->listOfTrainVectors.size() / static_cast<u_long>(this->dimension));
+}
+
 void FaissProductClusteringDB::BuildIndex(int numOfTrainDataset) {
     this->faissIndex->train(numOfTrainDataset, this->listOfTrainVectors.data());
 }
@@ -50,8 +54,8 @@ bool FaissProductClusteringDB::GetTrainStatus() {
     return trainStatus;
 }
 
-u_long FaissProductClusteringDB::GetTrainDataSize() {
-    return static_cast<u_long>(this->listOfTrainVectors.size() / static_cast<u_long>(this->dimension));
+void FaissProductClusteringDB::AddNewVector(int sizeOfDatabase, float *vectors) {
+    this->faissIndex->add(sizeOfDatabase, vectors);
 }
 
 void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], long long pids[]) {
@@ -61,7 +65,6 @@ void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vec
     for (int i = 0; i < sizeOfDatabase; ++i)  {
         ids.push_back(pids[i]);
     }
-
 
     for (int i = 0; i < this->dimension; ++i) {
         database.push_back(vectors[i]);
@@ -96,4 +99,3 @@ void FaissProductClusteringDB::DumpFaissDB(const char fileName[]) {
 void FaissProductClusteringDB::ResetIndex() {
     this->faissIndex->reset();
 }
-
