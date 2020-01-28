@@ -32,11 +32,11 @@ public:
 
     void AddNewVector(int sizeOfDatabase, float vectors[]);
 
-    void AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], long long pids[]);
+    void AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], int64_t pids[]);
 
-    void SearchVector(int numOfQuery, float vectors[], int kTotal, float distances[], long long pids[]);
+    void SearchVector(int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
 
-    void SearchVectorByID(long long pid, float vectors[]);
+    void SearchVectorByID(int64_t pid, float vectors[]);
 
     void DeleteVectorsByIDs(int pids[]);
 

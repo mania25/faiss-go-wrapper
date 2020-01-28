@@ -58,9 +58,9 @@ void FaissProductClusteringDB::AddNewVector(int sizeOfDatabase, float *vectors) 
     this->faissIndex->add(sizeOfDatabase, vectors);
 }
 
-void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], long long pids[]) {
+void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], int64_t pids[]) {
     std::vector <float> database;
-    std::vector <long long> ids;
+    std::vector <int64_t> ids;
 
     for (int i = 0; i < sizeOfDatabase; ++i)  {
         ids.push_back(pids[i]);
@@ -73,12 +73,12 @@ void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vec
     this->faissIndex->add_with_ids(sizeOfDatabase, database.data(), ids.data());
 }
 
-void FaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kTotal, float *distances, long long *pids) {
+void FaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kTotal, float *distances, int64_t *pids) {
     this->faissIndex->search(numOfQuery, vectors, kTotal, distances,
                        pids);
 }
 
-void FaissProductClusteringDB::SearchVectorByID(long long pid, float vectors[]) {
+void FaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
     faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
     faissIndex->reconstruct(pid, vectors);
 }

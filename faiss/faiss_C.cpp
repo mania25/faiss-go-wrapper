@@ -41,15 +41,15 @@ void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vecto
     fdb->AddNewVector(sizeOfDatabase, vectors);
 }
 
-void AddNewVectorWithIDs(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], long long pids[]) {
+void AddNewVectorWithIDs(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], int64_t pids[]) {
     fdb->AddNewVectorWithIDs(sizeOfDatabase, vectors, pids);
 }
 
-void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], long long pids[]) {
+void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]) {
     fdb->SearchVector(numOfQuery, vectors, kTotal, distances, pids);
 }
 
-void SearchVectorByID(FaissProductClusteringDB* fdb, long long pid, float vectors[]) {
+void SearchVectorByID(FaissProductClusteringDB* fdb, int64_t pid, float vectors[]) {
     fdb->SearchVectorByID(pid, vectors);
 }
 
