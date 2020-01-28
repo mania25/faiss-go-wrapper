@@ -6,7 +6,7 @@
 #define _FAISS_C_H
 
 #include <stdbool.h>
-#include <stdio.h>
+#include <cstdint>
 
 #ifdef __cplusplus
     extern "C"
