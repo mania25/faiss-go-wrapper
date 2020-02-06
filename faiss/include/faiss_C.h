@@ -7,6 +7,7 @@
 
 #include <stdbool.h>
 #include <cstdint>
+#include <stdlib.h>
 
 #ifdef __cplusplus
     extern "C"
@@ -27,7 +28,7 @@
         void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
         void SearchVectorByID(FaissProductClusteringDB* fdb, int64_t pid, float vectors[]);
         void SearchCentroidIDByVector(FaissProductClusteringDB* fdb, float *vectors, int numOfQuery, int64_t *clusterIDs);
-        void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, int pids[]);
+        void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, size_t numOfQuery, int pids[]);
         int GetVectorTotal(FaissProductClusteringDB* fdb);
         void DumpFaissDB(FaissProductClusteringDB* fdb, char fileName[]);
         void ResetIndex(FaissProductClusteringDB* fdb);

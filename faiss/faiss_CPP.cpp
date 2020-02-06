@@ -87,9 +87,8 @@ void FaissProductClusteringDB::SearchCentroidIDByVector(float *vectors, int numO
     faiss::ivflib::search_centroid(faissIndex, vectors, numOfQuery, clusterIDs);
 }
 
-void FaissProductClusteringDB::DeleteVectorsByIDs(int pids[]) {
-    auto pidsLen = *(&pids + 1) - pids;
-    this->faissIndex->remove_ids(faiss::IDSelectorBatch(pidsLen, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
+void FaissProductClusteringDB::DeleteVectorsByIDs(size_t numOfQuery, int pids[]) {
+    this->faissIndex->remove_ids(faiss::IDSelectorBatch(numOfQuery, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
 }
 
 int FaissProductClusteringDB::GetVectorTotal() {

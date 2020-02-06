@@ -40,7 +40,7 @@ public:
 
     void SearchCentroidIDByVector(float *vectors, int numOfQuery, int64_t *clusterIDs);
 
-    void DeleteVectorsByIDs(int pids[]);
+    void DeleteVectorsByIDs(size_t numOfQuery, int pids[]);
 
     int GetVectorTotal();
 

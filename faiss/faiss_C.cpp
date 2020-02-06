@@ -57,8 +57,8 @@ void SearchCentroidIDByVector(FaissProductClusteringDB *fdb, float *vectors, int
     fdb->SearchCentroidIDByVector(vectors, numOfQuery, clusterIDs);
 }
 
-void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, int pids[]) {
-    fdb->DeleteVectorsByIDs(pids);
+void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, size_t numOfQuery, int pids[]) {
+    fdb->DeleteVectorsByIDs(numOfQuery, pids);
 }
 
 int GetVectorTotal(FaissProductClusteringDB* fdb) {
