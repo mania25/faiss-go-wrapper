@@ -80,7 +80,6 @@ void FaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int 
 
 void FaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
     faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
-    faiss::ivflib::extract_index_ivf(faissIndex)-;
     faissIndex->reconstruct(pid, vectors);
 }
 
