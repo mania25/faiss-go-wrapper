@@ -38,6 +38,8 @@ public:
 
     void SearchVectorByID(int64_t pid, float vectors[]);
 
+    void SearchCentroidIDByVector(float *vectors, int numOfQuery, int64_t *clusterIDs);
+
     void DeleteVectorsByIDs(int pids[]);
 
     int GetVectorTotal();

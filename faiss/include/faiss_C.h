@@ -26,6 +26,7 @@
         void AddNewVectorWithIDs(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], int64_t pids[]);
         void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
         void SearchVectorByID(FaissProductClusteringDB* fdb, int64_t pid, float vectors[]);
+        void SearchCentroidIDByVector(FaissProductClusteringDB* fdb, float *vectors, int numOfQuery, int64_t *clusterIDs);
         void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, int pids[]);
         int GetVectorTotal(FaissProductClusteringDB* fdb);
         void DumpFaissDB(FaissProductClusteringDB* fdb, char fileName[]);

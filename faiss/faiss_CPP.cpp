@@ -83,6 +83,10 @@ void FaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
     faissIndex->reconstruct(pid, vectors);
 }
 
+void FaissProductClusteringDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int64_t *clusterIDs) {
+    faiss::ivflib::search_centroid(faissIndex, vectors, numOfQuery, clusterIDs);
+}
+
 void FaissProductClusteringDB::DeleteVectorsByIDs(int pids[]) {
     auto pidsLen = *(&pids + 1) - pids;
     this->faissIndex->remove_ids(faiss::IDSelectorBatch(pidsLen, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
