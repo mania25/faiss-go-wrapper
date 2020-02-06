@@ -15,7 +15,7 @@
 
         typedef struct FaissProductClusteringDB FaissProductClusteringDB;
         FaissProductClusteringDB* newFaissProductClusteringDB(int dimension, char *faissIndexType);
-        void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[]);
+        void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[], int ioflags);
         void InitFaissDB(FaissProductClusteringDB* fdb);
         void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]);
         void ValidateTrainDataset(FaissProductClusteringDB* fdb);

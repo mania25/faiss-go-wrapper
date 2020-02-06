@@ -14,8 +14,8 @@ FaissProductClusteringDB::FaissProductClusteringDB(int dimension, const char *fa
     this->faissIndexType = faissIndexType;
 }
 
-void FaissProductClusteringDB::ReadFaissDBFromFile(char *fileName) {
-    this->faissIndex = faiss::read_index(fileName, faiss::IO_FLAG_MMAP);
+void FaissProductClusteringDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
+    this->faissIndex = faiss::read_index(fileName, ioflags);
     this->faissIndex->verbose = true;
 }
 
@@ -80,6 +80,7 @@ void FaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int 
 
 void FaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
     faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
+    faiss::ivflib::extract_index_ivf(faissIndex)-;
     faissIndex->reconstruct(pid, vectors);
 }
 

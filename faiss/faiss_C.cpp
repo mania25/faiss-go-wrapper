@@ -9,8 +9,8 @@ FaissProductClusteringDB* newFaissProductClusteringDB(int dimension, char *faiss
     return new FaissProductClusteringDB(dimension, faissIndexType);
 }
 
-void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[]) {
-    fdb->ReadFaissDBFromFile(fileName);
+void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[], int ioflags) {
+    fdb->ReadFaissDBFromFile(fileName, ioflags);
 }
 
 void InitFaissDB(FaissProductClusteringDB* fdb) {

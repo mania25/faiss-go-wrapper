@@ -16,7 +16,7 @@ private:
 public:
     FaissProductClusteringDB(int dimension, const char *faissIndexType);
 
-    void ReadFaissDBFromFile(char fileName[]);
+    void ReadFaissDBFromFile(char fileName[], int ioflags);
 
     void InitFaissDB();
 
