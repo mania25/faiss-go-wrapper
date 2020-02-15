@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     int64_t pidsResult[] = {};
 
     printf("Searching vector on FAISS. . .\n");
-    SearchVector(faissProductClusteringDb, 1, vector, 4, distanceResult, pidsResult);
+    SearchVector(faissProductClusteringDb, 1, 10, vector, 4, distanceResult, pidsResult);
 
     printf("Printing search result. . .\n");
     printf("Distance: %f\n", distanceResult[0]);

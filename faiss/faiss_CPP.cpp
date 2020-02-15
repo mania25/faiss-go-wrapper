@@ -17,11 +17,13 @@ FaissProductClusteringDB::FaissProductClusteringDB(int dimension, const char *fa
 void FaissProductClusteringDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
     this->faissIndex = faiss::read_index(fileName, ioflags);
     this->faissIndex->verbose = true;
+    faiss::ivflib::extract_index_ivf(faissIndex)->verbose = true;
 }
 
 void FaissProductClusteringDB::InitFaissDB() {
     this->faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, faiss::METRIC_L2);
     this->faissIndex->verbose = true;
+    faiss::ivflib::extract_index_ivf(faissIndex)->verbose = true;
 }
 
 void FaissProductClusteringDB::PushTrainDataVector(const float vectors[]) {
@@ -73,17 +75,20 @@ void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vec
     this->faissIndex->add_with_ids(sizeOfDatabase, database.data(), ids.data());
 }
 
-void FaissProductClusteringDB::SearchVector(int numOfQuery, float *vectors, int kTotal, float *distances, int64_t *pids) {
+void FaissProductClusteringDB::SearchVector(int numOfQuery, int nProbe, float *vectors, int kTotal, float *distances, int64_t *pids) {
+    faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     this->faissIndex->search(numOfQuery, vectors, kTotal, distances,
                        pids);
 }
 
-void FaissProductClusteringDB::SearchVectorByID(int64_t pid, float vectors[]) {
+void FaissProductClusteringDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
     faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
+    faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     faissIndex->reconstruct(pid, vectors);
 }
 
-void FaissProductClusteringDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int64_t *clusterIDs) {
+void FaissProductClusteringDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs) {
+    faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     faiss::ivflib::search_centroid(faissIndex, vectors, numOfQuery, clusterIDs);
 }
 

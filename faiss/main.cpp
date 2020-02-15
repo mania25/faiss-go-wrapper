@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
     faiss::Index::idx_t pidsResult[] = {};
 
     std::cout << "Searching vector on FAISS. . ." << std::endl;
-    productClusteringDb.SearchVector(1, vector, 4, distanceResult, pidsResult);
+    productClusteringDb.SearchVector(1, 10, vector, 4, distanceResult, pidsResult);
 
     std::cout << "Printing search result. . ." << std::endl;
     printf("Distance: %f\n", distanceResult[0]);

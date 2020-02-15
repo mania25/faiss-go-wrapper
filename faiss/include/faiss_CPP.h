@@ -34,11 +34,11 @@ public:
 
     void AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], int64_t pids[]);
 
-    void SearchVector(int numOfQuery, float vectors[], int kTotal, float distances[], int64_t pids[]);
+    void SearchVector(int numOfQuery, int nProbe, float vectors[], int kTotal, float distances[], int64_t pids[]);
 
-    void SearchVectorByID(int64_t pid, float vectors[]);
+    void SearchVectorByID(int64_t pid, int nProbe, float vectors[]);
 
-    void SearchCentroidIDByVector(float *vectors, int numOfQuery, int64_t *clusterIDs);
+    void SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs);
 
     void DeleteVectorsByIDs(size_t numOfQuery, int pids[]);
 
