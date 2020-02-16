@@ -25,7 +25,6 @@ void FaissProductClusteringDB::InitFaissDB() {
     this->faissIndex->verbose = true;
     faiss::ivflib::extract_index_ivf(faissIndex)->verbose = true;
     faiss::ivflib::extract_index_ivf(faissIndex)->own_invlists = true;
-    faiss::ivflib::extract_index_ivf(faissIndex)->maintain_direct_map = true;
 }
 
 void FaissProductClusteringDB::PushTrainDataVector(const float vectors[]) {
