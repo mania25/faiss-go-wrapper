@@ -24,6 +24,8 @@ void FaissProductClusteringDB::InitFaissDB() {
     this->faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, faiss::METRIC_L2);
     this->faissIndex->verbose = true;
     faiss::ivflib::extract_index_ivf(faissIndex)->verbose = true;
+    faiss::ivflib::extract_index_ivf(faissIndex)->own_invlists = true;
+    faiss::ivflib::extract_index_ivf(faissIndex)->maintain_direct_map = true;
 }
 
 void FaissProductClusteringDB::PushTrainDataVector(const float vectors[]) {
