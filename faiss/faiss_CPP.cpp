@@ -77,6 +77,7 @@ void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vec
 
 void FaissProductClusteringDB::SearchVector(int numOfQuery, int nProbe, float *vectors, int kTotal, float *distances, int64_t *pids) {
     faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
+    faiss::ivflib::extract_index_ivf(faissIndex)->parallel_mode = 2;
     this->faissIndex->search(numOfQuery, vectors, kTotal, distances,
                        pids);
 }
@@ -84,11 +85,13 @@ void FaissProductClusteringDB::SearchVector(int numOfQuery, int nProbe, float *v
 void FaissProductClusteringDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
     faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
     faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
+    faiss::ivflib::extract_index_ivf(faissIndex)->parallel_mode = 2;
     faissIndex->reconstruct(pid, vectors);
 }
 
 void FaissProductClusteringDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs) {
     faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
+    faiss::ivflib::extract_index_ivf(faissIndex)->parallel_mode = 2;
     faiss::ivflib::search_centroid(faissIndex, vectors, numOfQuery, clusterIDs);
 }
 
