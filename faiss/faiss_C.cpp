@@ -13,8 +13,8 @@ void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[], int iof
     fdb->ReadFaissDBFromFile(fileName, ioflags);
 }
 
-void InitFaissDB(FaissProductClusteringDB* fdb) {
-    fdb->InitFaissDB();
+void InitFaissDB(FaissProductClusteringDB* fdb, int metricType) {
+    fdb->InitFaissDB(metricType);
 }
 
 void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]) {

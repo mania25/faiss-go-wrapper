@@ -15,16 +15,21 @@ FaissProductClusteringDB::FaissProductClusteringDB(int dimension, const char *fa
 }
 
 void FaissProductClusteringDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
-    this->faissIndex = faiss::read_index(fileName, ioflags);
-    this->faissIndex->verbose = true;
-    faiss::ivflib::extract_index_ivf(faissIndex)->verbose = true;
+    try {
+        this->faissIndex = faiss::read_index(fileName, ioflags);
+        this->faissIndex->verbose = true;
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
-void FaissProductClusteringDB::InitFaissDB() {
-    this->faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, faiss::METRIC_L2);
-    this->faissIndex->verbose = true;
-    faiss::ivflib::extract_index_ivf(faissIndex)->verbose = true;
-    faiss::ivflib::extract_index_ivf(faissIndex)->own_invlists = true;
+void FaissProductClusteringDB::InitFaissDB(int metricType) {
+    try {
+        this->faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, static_cast<faiss::MetricType>(metricType));
+        this->faissIndex->verbose = true;
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 void FaissProductClusteringDB::PushTrainDataVector(const float vectors[]) {
@@ -38,7 +43,7 @@ void FaissProductClusteringDB::ValidateTrainDataset() {
         float data = listOfTrainVector;
 
         if (!std::isfinite(data)){
-            printf("Invalid vectors data, Got: %f", data);
+            printf("Invalid vectors data, Got: %f\n", data);
             return;
         }
     }
@@ -49,7 +54,11 @@ u_long FaissProductClusteringDB::GetTrainDataSize() {
 }
 
 void FaissProductClusteringDB::BuildIndex(int numOfTrainDataset) {
-    this->faissIndex->train(numOfTrainDataset, this->listOfTrainVectors.data());
+    try {
+        this->faissIndex->train(numOfTrainDataset, this->listOfTrainVectors.data());
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 bool FaissProductClusteringDB::GetTrainStatus() {
@@ -58,43 +67,80 @@ bool FaissProductClusteringDB::GetTrainStatus() {
 }
 
 void FaissProductClusteringDB::AddNewVector(int sizeOfDatabase, float *vectors) {
-    this->faissIndex->add(sizeOfDatabase, vectors);
+    try {
+        this->faissIndex->add(sizeOfDatabase, vectors);
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 void FaissProductClusteringDB::AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], int64_t pids[]) {
-    std::vector <float> database;
-    std::vector <int64_t> ids;
+    try {
+        std::vector <float> database;
+        std::vector <int64_t> ids;
 
-    for (int i = 0; i < sizeOfDatabase; ++i)  {
-        ids.push_back(pids[i]);
+        for (int i = 0; i < sizeOfDatabase; ++i)  {
+            ids.push_back(pids[i]);
+        }
+
+        for (int i = 0; i < this->dimension; ++i) {
+            database.push_back(vectors[i]);
+        }
+
+        this->faissIndex->add_with_ids(sizeOfDatabase, database.data(), ids.data());
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
     }
-
-    for (int i = 0; i < this->dimension; ++i) {
-        database.push_back(vectors[i]);
-    }
-
-    this->faissIndex->add_with_ids(sizeOfDatabase, database.data(), ids.data());
 }
 
 void FaissProductClusteringDB::SearchVector(int numOfQuery, int nProbe, float *vectors, int kTotal, float *distances, int64_t *pids) {
-    faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
-    this->faissIndex->search(numOfQuery, vectors, kTotal, distances,
-                       pids);
+    try {
+        faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
+    } catch (...) {
+        printf("nprobe is not supported in %s index\n", faissIndexType);
+    }
+
+    try {
+        this->faissIndex->search(numOfQuery, vectors, kTotal, distances, pids);
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 void FaissProductClusteringDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
-    faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
-    faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
-    faissIndex->reconstruct(pid, vectors);
+    try {
+        faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
+    } catch (...) {
+        printf("nprobe is not supported in %s index\n", faissIndexType);
+    }
+
+    try {
+        this->faissIndex->reconstruct(pid, vectors);
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 void FaissProductClusteringDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs) {
-    faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
-    faiss::ivflib::search_centroid(faissIndex, vectors, numOfQuery, clusterIDs);
+    try {
+        faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
+    } catch (...) {
+        printf("nprobe is not supported in %s index\n", faissIndexType);
+    }
+
+    try {
+        faiss::ivflib::search_centroid(faissIndex, vectors, numOfQuery, clusterIDs);
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 void FaissProductClusteringDB::DeleteVectorsByIDs(size_t numOfQuery, int pids[]) {
-    this->faissIndex->remove_ids(faiss::IDSelectorBatch(numOfQuery, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
+    try {
+        this->faissIndex->remove_ids(faiss::IDSelectorBatch(numOfQuery, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 int FaissProductClusteringDB::GetVectorTotal() {
@@ -102,9 +148,17 @@ int FaissProductClusteringDB::GetVectorTotal() {
 }
 
 void FaissProductClusteringDB::DumpFaissDB(const char fileName[]) {
-    faiss::write_index(this->faissIndex, fileName);
+    try {
+        faiss::write_index(this->faissIndex, fileName);
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }
 
 void FaissProductClusteringDB::ResetIndex() {
-    this->faissIndex->reset();
+    try {
+        this->faissIndex->reset();
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
 }

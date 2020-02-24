@@ -28,7 +28,7 @@ void removeString (char text[], int start, int length) {
 int main(int argc, char **argv) {
     char line[8196];
     char c;
-    char *indexType = "OPQ8,IVF10_HNSW32,PQ8";
+    char *indexType = "Flat";
     char* indexFileName = "product_clusters_10.index";
     int count = 0;
     int i = 0;
@@ -43,8 +43,9 @@ int main(int argc, char **argv) {
     }
 
     printf("Initializing FAISS DB. . .\n");
+    enum MetricType metricType = METRIC_L2;
     FaissProductClusteringDB* faissProductClusteringDb = newFaissProductClusteringDB(256, indexType);
-    InitFaissDB(faissProductClusteringDb);
+    InitFaissDB(faissProductClusteringDb, metricType);
 
     printf("Opening CSV file. . .\n");
     FILE *file;

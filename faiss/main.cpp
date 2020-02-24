@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Initializing FAISS DB. . ." << std::endl;
     FaissProductClusteringDB productClusteringDb(256, indexType);
-    productClusteringDb.InitFaissDB();
+    productClusteringDb.InitFaissDB(faiss::METRIC_L2);
 
     std::cout << "Opening CSV file. . ." << std::endl;
     std::ifstream file("product_vectors.csv");
