@@ -34,24 +34,24 @@
             METRIC_JensenShannon,
 
         };
-        typedef struct FaissProductClusteringDB FaissProductClusteringDB;
-        FaissProductClusteringDB* newFaissProductClusteringDB(int dimension, char *faissIndexType);
-        void ReadFaissDBFromFile(FaissProductClusteringDB* fdb, char fileName[], int ioflags);
-        void InitFaissDB(FaissProductClusteringDB* fdb, int metricType);
-        void PushTrainDataVector(FaissProductClusteringDB* fdb, float vectors[]);
-        void ValidateTrainDataset(FaissProductClusteringDB* fdb);
-        unsigned long GetTrainDataSize(FaissProductClusteringDB* fdb);
-        void BuildIndex(FaissProductClusteringDB* fdb, int numOfTrainDataset);
-        bool GetTrainStatus(FaissProductClusteringDB* fdb);
-        void AddNewVector(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[]);
-        void AddNewVectorWithIDs(FaissProductClusteringDB* fdb, int sizeOfDatabase, float vectors[], int64_t pids[]);
-        void SearchVector(FaissProductClusteringDB* fdb, int numOfQuery, int nProbe, float vectors[], int kTotal, float distances[], int64_t pids[]);
-        void SearchVectorByID(FaissProductClusteringDB* fdb, int64_t pid, int nProbe, float vectors[]);
-        void SearchCentroidIDByVector(FaissProductClusteringDB* fdb, float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs);
-        void DeleteVectorsByIDs(FaissProductClusteringDB* fdb, size_t numOfQuery, int pids[]);
-        int GetVectorTotal(FaissProductClusteringDB* fdb);
-        void DumpFaissDB(FaissProductClusteringDB* fdb, char fileName[]);
-        void ResetIndex(FaissProductClusteringDB* fdb);
+        typedef struct FaissDB FaissDB;
+        FaissDB* newFaissDB(int dimension, char *faissIndexType);
+        void ReadFaissDBFromFile(FaissDB* fdb, char fileName[], int ioflags);
+        void InitFaissDB(FaissDB* fdb, int metricType);
+        void PushTrainDataVector(FaissDB* fdb, float vectors[]);
+        void ValidateTrainDataset(FaissDB* fdb);
+        unsigned long GetTrainDataSize(FaissDB* fdb);
+        void BuildIndex(FaissDB* fdb, int numOfTrainDataset);
+        bool GetTrainStatus(FaissDB* fdb);
+        void AddNewVector(FaissDB* fdb, int sizeOfDatabase, float vectors[]);
+        void AddNewVectorWithIDs(FaissDB* fdb, int sizeOfDatabase, float vectors[], int64_t pids[]);
+        void SearchVector(FaissDB* fdb, int numOfQuery, int nProbe, float vectors[], int kTotal, float distances[], int64_t pids[]);
+        void SearchVectorByID(FaissDB* fdb, int64_t pid, int nProbe, float vectors[]);
+        void SearchCentroidIDByVector(FaissDB* fdb, float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs);
+        void DeleteVectorsByIDs(FaissDB* fdb, size_t numOfQuery, int pids[]);
+        int GetVectorTotal(FaissDB* fdb);
+        void DumpFaissDB(FaissDB* fdb, char fileName[]);
+        void ResetIndex(FaissDB* fdb);
 
     #ifdef __cplusplus
     }

@@ -5,17 +5,17 @@
 #include <vector>
 #include "faiss/Index.h"
 
-#ifndef _FAISS_PRODUCT_CLUSTERING_FAISS_HPP
-#define _FAISS_PRODUCT_CLUSTERING_FAISS_HPP
+#ifndef _FAISS_HPP
+#define _FAISS_HPP
 
-class FaissProductClusteringDB {
+class FaissDB {
 private:
     int dimension;
     const char *faissIndexType;
     faiss::Index *faissIndex{};
     std::vector<float> listOfTrainVectors;
 public:
-    FaissProductClusteringDB(int dimension, const char *faissIndexType);
+    FaissDB(int dimension, const char *faissIndexType);
 
     void ReadFaissDBFromFile(char fileName[], int ioflags);
 
@@ -50,4 +50,4 @@ public:
     void ResetIndex();
 };
 
-#endif // _FAISS_PRODUCT_CLUSTERING_FAISS_HPP
+#endif // _FAISS_HPP
