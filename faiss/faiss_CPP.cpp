@@ -34,7 +34,7 @@ void FaissDB::InitFaissDB(int metricType) {
 
 void FaissDB::PreAllocateTrainVector(int size) {
     try {
-        this->listOfTrainVectors.reserve(size);
+        this->listOfTrainVectors.reserve(this->dimension*size);
     } catch (faiss::FaissException &exception) {
         printf("%s\n", exception.what());
     }
