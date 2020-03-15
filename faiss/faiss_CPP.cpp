@@ -36,7 +36,7 @@ void FaissDB::PreAllocateTrainVector(int size) {
     try {
         unsigned int totalSize = static_cast<unsigned int>(this->dimension)*static_cast<unsigned int>(size);
         this->listOfTrainVectors.reserve(totalSize);
-    } catch (faiss::FaissException &exception) {
+    } catch (std::exception &exception) {
         printf("%s\n", exception.what());
     }
 }
@@ -46,7 +46,7 @@ void FaissDB::PushTrainDataVector(const float vectors[]) {
         for (int i = 0; i < (sizeof(*vectors) / sizeof(float)) * this->dimension; ++i) {
             this->listOfTrainVectors.push_back(vectors[i]);
         }
-    } catch (faiss::FaissException &exception) {
+    } catch (std::exception &exception) {
         printf("%s\n", exception.what());
     }
 }
