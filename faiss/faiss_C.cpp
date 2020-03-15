@@ -17,6 +17,10 @@ void InitFaissDB(FaissDB* fdb, int metricType) {
     fdb->InitFaissDB(metricType);
 }
 
+void PreAllocateTrainVector(FaissDB* fdb, int size) {
+    fdb->PreAllocateTrainVector(size);
+}
+
 void PushTrainDataVector(FaissDB* fdb, float vectors[]) {
     fdb->PushTrainDataVector(vectors);
 }

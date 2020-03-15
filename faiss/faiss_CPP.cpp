@@ -32,9 +32,21 @@ void FaissDB::InitFaissDB(int metricType) {
     }
 }
 
+void FaissDB::PreAllocateTrainVector(int size) {
+    try {
+        this->listOfTrainVectors.reserve(size);
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
+    }
+}
+
 void FaissDB::PushTrainDataVector(const float vectors[]) {
-    for (int i = 0; i < (sizeof(*vectors) / sizeof(float)) * this->dimension; ++i) {
-        this->listOfTrainVectors.push_back(vectors[i]);
+    try {
+        for (int i = 0; i < (sizeof(*vectors) / sizeof(float)) * this->dimension; ++i) {
+            this->listOfTrainVectors.push_back(vectors[i]);
+        }
+    } catch (faiss::FaissException &exception) {
+        printf("%s\n", exception.what());
     }
 }
 

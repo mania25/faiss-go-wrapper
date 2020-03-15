@@ -38,6 +38,7 @@
         FaissDB* newFaissDB(int dimension, char *faissIndexType);
         void ReadFaissDBFromFile(FaissDB* fdb, char fileName[], int ioflags);
         void InitFaissDB(FaissDB* fdb, int metricType);
+        void PreAllocateTrainVector(FaissDB* fdb, int size);
         void PushTrainDataVector(FaissDB* fdb, float vectors[]);
         void ValidateTrainDataset(FaissDB* fdb);
         unsigned long GetTrainDataSize(FaissDB* fdb);

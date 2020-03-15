@@ -21,6 +21,8 @@ public:
 
     void InitFaissDB(int metricType);
 
+    void PreAllocateTrainVector(int size);
+
     void PushTrainDataVector(const float vectors[]);
 
     void ValidateTrainDataset();
