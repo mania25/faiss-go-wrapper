@@ -19,7 +19,7 @@ void FaissDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
         this->faissIndex = faiss::read_index(fileName, ioflags);
         this->faissIndex->verbose = true;
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("ReadFaissDBFromFile() : %s\n", exception.what());
     }
 }
 
@@ -28,7 +28,7 @@ void FaissDB::InitFaissDB(int metricType) {
         this->faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, static_cast<faiss::MetricType>(metricType));
         this->faissIndex->verbose = true;
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("InitFaissDB() : %s\n", exception.what());
     }
 }
 
@@ -37,7 +37,7 @@ void FaissDB::PreAllocateTrainVector(int size) {
         unsigned int totalSize = static_cast<unsigned int>(this->dimension)*static_cast<unsigned int>(size);
         this->listOfTrainVectors.reserve(totalSize);
     } catch (std::exception &exception) {
-        printf("%s\n", exception.what());
+        printf("PreAllocateTrainVector() : %s\n", exception.what());
     }
 }
 
@@ -47,7 +47,7 @@ void FaissDB::PushTrainDataVector(const float vectors[]) {
             this->listOfTrainVectors.push_back(vectors[i]);
         }
     } catch (std::exception &exception) {
-        printf("%s\n", exception.what());
+        printf("PushTrainDataVector() : %s\n", exception.what());
     }
 }
 
@@ -56,7 +56,7 @@ void FaissDB::ValidateTrainDataset() {
         float data = listOfTrainVector;
 
         if (!std::isfinite(data)){
-            printf("Invalid vectors data, Got: %f\n", data);
+            printf("ValidateTrainDataset() : Invalid vectors data, Got: %f\n", data);
             return;
         }
     }
@@ -70,7 +70,7 @@ void FaissDB::BuildIndex(int numOfTrainDataset) {
     try {
         this->faissIndex->train(numOfTrainDataset, this->listOfTrainVectors.data());
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("BuildIndex() : %s\n", exception.what());
     }
 }
 
@@ -83,26 +83,15 @@ void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
     try {
         this->faissIndex->add(sizeOfDatabase, vectors);
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("AddNewVector() : %s\n", exception.what());
     }
 }
 
 void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], int64_t pids[]) {
     try {
-        std::vector <float> database;
-        std::vector <int64_t> ids;
-
-        for (int i = 0; i < sizeOfDatabase; ++i)  {
-            ids.push_back(pids[i]);
-        }
-
-        for (int i = 0; i < this->dimension; ++i) {
-            database.push_back(vectors[i]);
-        }
-
-        this->faissIndex->add_with_ids(sizeOfDatabase, database.data(), ids.data());
+        this->faissIndex->add_with_ids(sizeOfDatabase, vectors, pids);
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("AddNewVectorWithIDs() : %s\n", exception.what());
     }
 }
 
@@ -110,13 +99,13 @@ void FaissDB::SearchVector(int numOfQuery, int nProbe, float *vectors, int kTota
     try {
         faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     } catch (...) {
-        printf("nprobe is not supported in %s index\n", faissIndexType);
+        printf("SearchVector() : nprobe is not supported in %s index\n", faissIndexType);
     }
 
     try {
         this->faissIndex->search(numOfQuery, vectors, kTotal, distances, pids);
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("SearchVector() : %s\n", exception.what());
     }
 }
 
@@ -124,13 +113,13 @@ void FaissDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
     try {
         faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     } catch (...) {
-        printf("nprobe is not supported in %s index\n", faissIndexType);
+        printf("SearchVectorByID() : nprobe is not supported in %s index\n", faissIndexType);
     }
 
     try {
         this->faissIndex->reconstruct(pid, vectors);
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("SearchVectorByID() : %s\n", exception.what());
     }
 }
 
@@ -138,13 +127,13 @@ void FaissDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProb
     try {
         faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     } catch (...) {
-        printf("nprobe is not supported in %s index\n", faissIndexType);
+        printf("SearchCentroidIDByVector() : nprobe is not supported in %s index\n", faissIndexType);
     }
 
     try {
         faiss::ivflib::search_centroid(faissIndex, vectors, numOfQuery, clusterIDs);
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("SearchCentroidIDByVector() : %s\n", exception.what());
     }
 }
 
@@ -152,7 +141,7 @@ void FaissDB::DeleteVectorsByIDs(size_t numOfQuery, int pids[]) {
     try {
         this->faissIndex->remove_ids(faiss::IDSelectorBatch(numOfQuery, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("DeleteVectorsByIDs() : %s\n", exception.what());
     }
 }
 
@@ -164,7 +153,7 @@ void FaissDB::DumpFaissDB(const char fileName[]) {
     try {
         faiss::write_index(this->faissIndex, fileName);
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("DumpFaissDB() : %s\n", exception.what());
     }
 }
 
@@ -172,6 +161,6 @@ void FaissDB::ResetIndex() {
     try {
         this->faissIndex->reset();
     } catch (faiss::FaissException &exception) {
-        printf("%s\n", exception.what());
+        printf("ResetIndex() : %s\n", exception.what());
     }
 }
