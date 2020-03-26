@@ -45,7 +45,7 @@
         void BuildIndex(FaissDB* fdb, int numOfTrainDataset);
         bool GetTrainStatus(FaissDB* fdb);
         void AddNewVector(FaissDB* fdb, int sizeOfDatabase, float vectors[]);
-        void AddNewVectorWithIDs(FaissDB* fdb, int sizeOfDatabase, float* vectors, long long int* pids);
+        void AddNewVectorWithIDs(FaissDB* fdb, int sizeOfDatabase, float* vectors, int64_t* pids);
         void SearchVector(FaissDB* fdb, int numOfQuery, int nProbe, float vectors[], int kTotal, float distances[], int64_t pids[]);
         void SearchVectorByID(FaissDB* fdb, int64_t pid, int nProbe, float vectors[]);
         void SearchCentroidIDByVector(FaissDB* fdb, float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs);

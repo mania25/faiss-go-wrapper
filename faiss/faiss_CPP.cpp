@@ -87,7 +87,7 @@ void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
     }
 }
 
-void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, long long int* pids) {
+void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, int64_t* pids) {
     try {
         this->faissIndex->add_with_ids(sizeOfDatabase, vectors, pids);
     } catch (faiss::FaissException &exception) {

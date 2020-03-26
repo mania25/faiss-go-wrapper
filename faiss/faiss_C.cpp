@@ -45,7 +45,7 @@ void AddNewVector(FaissDB* fdb, int sizeOfDatabase, float vectors[]) {
     fdb->AddNewVector(sizeOfDatabase, vectors);
 }
 
-void AddNewVectorWithIDs(FaissDB* fdb, int sizeOfDatabase, float* vectors, long long int* pids) {
+void AddNewVectorWithIDs(FaissDB* fdb, int sizeOfDatabase, float* vectors, int64_t* pids) {
     fdb->AddNewVectorWithIDs(sizeOfDatabase, vectors, pids);
 }
 
