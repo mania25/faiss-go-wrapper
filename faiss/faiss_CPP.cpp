@@ -89,7 +89,7 @@ void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
 
 void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, int64_t* pids) {
     try {
-        if (vectors == nullptr || pids == nullptr) {
+        if (vectors == nullptr || pids == nullptr || !this || this->faissIndex == nullptr) {
             if (vectors == nullptr) {
                 printf("`vectors` param is null\n");
             }
@@ -98,10 +98,18 @@ void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, int64_t* p
                 printf("`pids` param is null\n");
             }
 
+            if (!this) {
+                printf("`this` keyword is null\n");
+            }
+
+            if (this->faissIndex == nullptr) {
+                printf("`this->faissIndex` param is null\n");
+            }
+
             return;
         }
 
-        faissIndex->add_with_ids(sizeOfDatabase, vectors, pids);
+        this->faissIndex->add_with_ids(sizeOfDatabase, vectors, pids);
     } catch (faiss::FaissException &exception) {
         printf("AddNewVectorWithIDs() : %s\n", exception.what());
     }
