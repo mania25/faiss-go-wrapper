@@ -89,6 +89,11 @@ void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
 
 void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, int64_t* pids) {
     try {
+        int vectorLen = (sizeof(*vectors) / sizeof(float));
+        if (vectors == nullptr || pids == nullptr || vectorLen != dimension*sizeOfDatabase) {
+            return;
+        }
+
         this->faissIndex->add_with_ids(sizeOfDatabase, vectors, pids);
     } catch (faiss::FaissException &exception) {
         printf("AddNewVectorWithIDs() : %s\n", exception.what());
