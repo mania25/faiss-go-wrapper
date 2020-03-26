@@ -4,6 +4,7 @@
 
 #include <vector>
 #include "faiss/Index.h"
+#include <mutex>
 
 #ifndef _FAISS_HPP
 #define _FAISS_HPP
