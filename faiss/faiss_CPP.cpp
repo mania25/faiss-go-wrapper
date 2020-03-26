@@ -89,22 +89,13 @@ void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
 
 void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, int64_t* pids) {
     try {
-        int vectorLen = sizeof(vectors)/4;
-        if (vectors == nullptr || pids == nullptr || vectorLen != dimension*sizeOfDatabase) {
+        if (vectors == nullptr || pids == nullptr) {
             if (vectors == nullptr) {
                 printf("`vectors` param is null\n");
             }
 
             if (pids == nullptr) {
                 printf("`pids` param is null\n");
-            }
-
-            if (vectors == nullptr) {
-                printf("`vectors` param is null\n");
-            }
-
-            if (vectorLen != dimension*sizeOfDatabase) {
-                printf("vectorLen != %d, got: %d\n", dimension*sizeOfDatabase, vectorLen);
             }
 
             return;
