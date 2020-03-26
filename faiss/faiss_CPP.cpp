@@ -89,10 +89,9 @@ void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
 
 void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], int64_t pids[]) {
     try {
-        int lenOfPIDsArr = sizeof(*pids) / sizeof(int64_t);
-        int lenOfVectorsArr = sizeof(*vectors) / sizeof(float);
+        int lenOfVectorsArr = sizeOfDatabase * dimension;
 
-        std::vector <int64_t> ids(pids, pids + lenOfPIDsArr);
+        std::vector <int64_t> ids(pids, pids + sizeOfDatabase);
         std::vector <float> vectorsData(vectors, vectors + lenOfVectorsArr);
 
         this->faissIndex->add_with_ids(sizeOfDatabase, vectorsData.data(), ids.data());
