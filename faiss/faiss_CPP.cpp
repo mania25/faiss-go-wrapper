@@ -14,6 +14,11 @@ FaissDB::FaissDB(int dimension, const char *faissIndexType) {
     this->faissIndexType = faissIndexType;
 }
 
+
+FaissDB::~FaissDB() {
+    printf("Destructor Called.\n");
+}
+
 void FaissDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
     try {
         this->faissIndex = faiss::read_index(fileName, ioflags);

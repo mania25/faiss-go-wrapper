@@ -17,6 +17,8 @@ private:
 public:
     FaissDB(int dimension, const char *faissIndexType);
 
+    ~FaissDB();
+
     void ReadFaissDBFromFile(char fileName[], int ioflags);
 
     void InitFaissDB(int metricType);
