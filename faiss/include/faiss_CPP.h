@@ -35,7 +35,7 @@ public:
 
     void AddNewVector(int sizeOfDatabase, float vectors[]);
 
-    void AddNewVectorWithIDs(int sizeOfDatabase, float vectors[], int64_t pids[]);
+    void AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, long long int* pids);
 
     void SearchVector(int numOfQuery, int nProbe, float vectors[], int kTotal, float distances[], int64_t pids[]);
 
