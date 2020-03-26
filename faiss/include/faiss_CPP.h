@@ -14,6 +14,7 @@ private:
     const char *faissIndexType;
     faiss::Index *faissIndex{};
     std::vector<float> listOfTrainVectors;
+    std::mutex mtx;
 public:
     FaissDB(int dimension, const char *faissIndexType);
 
