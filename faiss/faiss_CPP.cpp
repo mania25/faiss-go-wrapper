@@ -163,6 +163,11 @@ int FaissDB::GetVectorTotal() {
 
 void FaissDB::DumpFaissDB(const char fileName[]) {
     try {
+        if (fileName == nullptr) {
+            printf("Invalid fileName. Got: %s\n", fileName);
+            return;
+        }
+
         faiss::write_index(this->faissIndex, fileName);
     } catch (faiss::FaissException &exception) {
         printf("DumpFaissDB() : %s\n", exception.what());
