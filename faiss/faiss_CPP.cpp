@@ -188,6 +188,7 @@ int FaissDB::GetVectorTotal() {
 }
 
 void FaissDB::DumpFaissDB(const char fileName[]) {
+    mtx.lock();
     try {
         if (fileName == nullptr) {
             printf("Invalid fileName. Got: %s\n", fileName);
@@ -198,6 +199,7 @@ void FaissDB::DumpFaissDB(const char fileName[]) {
     } catch (faiss::FaissException &exception) {
         printf("DumpFaissDB() : %s\n", exception.what());
     }
+    mtx.unlock();
 }
 
 void FaissDB::ResetIndex() {
