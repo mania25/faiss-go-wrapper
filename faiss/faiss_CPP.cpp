@@ -10,7 +10,7 @@
 #include <faiss/IVFlib.h>
 
 FaissDB::FaissDB(int dimension, const char *faissIndexType) {
-    printf("FAISS version %d.%d.%d . . .\n", FAISS_VERSION_MAJOR, FAISS_VERSION_MINOR, FAISS_VERSION_PATCH);
+    printf("FAISS version %d.%d.%d\n", FAISS_VERSION_MAJOR, FAISS_VERSION_MINOR, FAISS_VERSION_PATCH);
 
     this->dimension = dimension;
     this->faissIndexType = faissIndexType;
