@@ -150,7 +150,7 @@ void FaissDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
     }
 
     try {
-        faiss::ivflib::extract_index_ivf(faissIndex)->set_direct_map_type(faiss::DirectMap::Hashtable);
+        faiss::ivflib::extract_index_ivf(faissIndex)->set_direct_map_type(faiss::DirectMap::Array);
         faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
         faiss::ivflib::extract_index_ivf(faissIndex)->reconstruct(pid, vectors);
     } catch (faiss::FaissException &exception) {
