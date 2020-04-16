@@ -25,6 +25,13 @@ void FaissDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
         this->faissIndex = faiss::read_index(fileName, ioflags);
     } catch (faiss::FaissException &exception) {
         printf("ReadFaissDBFromFile() : %s\n", exception.what());
+        return;
+    }
+
+    try {
+        faiss::ivflib::extract_index_ivf(faissIndex)->set_direct_map_type(faiss::DirectMap::Hashtable);
+    } catch (faiss::FaissException &exception) {
+        return;
     }
 }
 
@@ -34,6 +41,12 @@ void FaissDB::InitFaissDB(int metricType) {
         this->faissIndex->verbose = true;
     } catch (faiss::FaissException &exception) {
         printf("InitFaissDB() : %s\n", exception.what());
+    }
+
+    try {
+        faiss::ivflib::extract_index_ivf(faissIndex)->set_direct_map_type(faiss::DirectMap::Hashtable);
+    } catch (faiss::FaissException &exception) {
+        return;
     }
 }
 
@@ -150,7 +163,6 @@ void FaissDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
     }
 
     try {
-        faiss::ivflib::extract_index_ivf(faissIndex)->set_direct_map_type(faiss::DirectMap::Hashtable);
         this->faissIndex->reconstruct(pid, vectors);
     } catch (faiss::FaissException &exception) {
         printf("SearchVectorByID() : %s\n", exception.what());
