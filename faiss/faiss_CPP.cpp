@@ -21,6 +21,8 @@ FaissDB::~FaissDB() {
 }
 
 void FaissDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
+    printf("Initializing FAISS version %d.%d.%d . . .", FAISS_VERSION_MAJOR, FAISS_VERSION_MINOR, FAISS_VERSION_PATCH);
+
     try {
         this->faissIndex = faiss::read_index(fileName, ioflags);
     } catch (faiss::FaissException &exception) {
@@ -29,6 +31,8 @@ void FaissDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
 }
 
 void FaissDB::InitFaissDB(int metricType) {
+    printf("Initializing FAISS version %d.%d.%d . . .", FAISS_VERSION_MAJOR, FAISS_VERSION_MINOR, FAISS_VERSION_PATCH);
+
     try {
         this->faissIndex = faiss::index_factory(this->dimension, this->faissIndexType, static_cast<faiss::MetricType>(metricType));
         this->faissIndex->verbose = true;
