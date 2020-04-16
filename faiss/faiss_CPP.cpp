@@ -10,13 +10,14 @@
 #include <faiss/IVFlib.h>
 
 FaissDB::FaissDB(int dimension, const char *faissIndexType) {
+    printf("Initializing FAISS version %d.%d.%d . . .", FAISS_VERSION_MAJOR, FAISS_VERSION_MINOR, FAISS_VERSION_PATCH);
+
     this->dimension = dimension;
     this->faissIndexType = faissIndexType;
 }
 
 
 FaissDB::~FaissDB() {
-    printf("Destructor Called.\n");
 }
 
 void FaissDB::ReadFaissDBFromFile(char *fileName, int ioflags) {
