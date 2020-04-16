@@ -150,6 +150,7 @@ void FaissDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
     }
 
     try {
+        faiss::ivflib::extract_index_ivf(faissIndex)->make_direct_map(true);
         this->faissIndex->reconstruct(pid, vectors);
     } catch (faiss::FaissException &exception) {
         printf("SearchVectorByID() : %s\n", exception.what());
