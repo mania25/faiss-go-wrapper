@@ -111,26 +111,6 @@ void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
 void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, int64_t* pids) {
     mtx.lock();
     try {
-        if (vectors == nullptr || pids == nullptr || !this || this->faissIndex == nullptr) {
-            if (vectors == nullptr) {
-                printf("`vectors` param is null\n");
-            }
-
-            if (pids == nullptr) {
-                printf("`pids` param is null\n");
-            }
-
-            if (!this) {
-                printf("`this` keyword is null\n");
-            }
-
-            if (this->faissIndex == nullptr) {
-                printf("`this->faissIndex` param is null\n");
-            }
-
-            return;
-        }
-
         this->faissIndex->add_with_ids(sizeOfDatabase, vectors, pids);
     } catch (faiss::FaissException &exception) {
         printf("AddNewVectorWithIDs() : %s\n", exception.what());
@@ -188,6 +168,16 @@ void FaissDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProb
 
 void FaissDB::DeleteVectorsByIDs(size_t numOfQuery, int pids[]) {
     mtx.lock();
+    try {
+        faiss::DirectMap directMap = faiss::ivflib::extract_index_ivf(faissIndex)->direct_map;
+        if (directMap.type == faiss::DirectMap::Hashtable) {
+            this->faissIndex->remove_ids(faiss::IDSelectorArray(numOfQuery, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
+            return;
+        }
+    } catch (...) {
+        printf("DeleteVectorsByIDs() : query not supported for this index, using the default one.\n");
+    }
+
     try {
         this->faissIndex->remove_ids(faiss::IDSelectorBatch(numOfQuery, reinterpret_cast<const faiss::IDSelector::idx_t *>(pids)));
     } catch (faiss::FaissException &exception) {
