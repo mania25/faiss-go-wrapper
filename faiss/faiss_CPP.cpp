@@ -99,27 +99,22 @@ bool FaissDB::GetTrainStatus() {
 }
 
 void FaissDB::AddNewVector(int sizeOfDatabase, float *vectors) {
-    mtx.lock();
     try {
         this->faissIndex->add(sizeOfDatabase, vectors);
     } catch (faiss::FaissException &exception) {
         printf("AddNewVector() : %s\n", exception.what());
     }
-    mtx.unlock();
 }
 
 void FaissDB::AddNewVectorWithIDs(int sizeOfDatabase, float* vectors, int64_t* pids) {
-    mtx.lock();
     try {
         this->faissIndex->add_with_ids(sizeOfDatabase, vectors, pids);
     } catch (faiss::FaissException &exception) {
         printf("AddNewVectorWithIDs() : %s\n", exception.what());
     }
-    mtx.unlock();
 }
 
 void FaissDB::SearchVector(int numOfQuery, int nProbe, float *vectors, int kTotal, float *distances, int64_t *pids) {
-    mtx.lock();
     try {
         faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     } catch (...) {
@@ -131,11 +126,9 @@ void FaissDB::SearchVector(int numOfQuery, int nProbe, float *vectors, int kTota
     } catch (faiss::FaissException &exception) {
         printf("SearchVector() : %s\n", exception.what());
     }
-    mtx.unlock();
 }
 
 void FaissDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
-    mtx.lock();
     try {
         faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     } catch (...) {
@@ -147,11 +140,9 @@ void FaissDB::SearchVectorByID(int64_t pid, int nProbe, float vectors[]) {
     } catch (faiss::FaissException &exception) {
         printf("SearchVectorByID() : %s\n", exception.what());
     }
-    mtx.unlock();
 }
 
 void FaissDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProbe, int64_t *clusterIDs) {
-    mtx.lock();
     try {
         faiss::ivflib::extract_index_ivf(faissIndex)->nprobe = nProbe;
     } catch (...) {
@@ -163,11 +154,9 @@ void FaissDB::SearchCentroidIDByVector(float *vectors, int numOfQuery, int nProb
     } catch (faiss::FaissException &exception) {
         printf("SearchCentroidIDByVector() : %s\n", exception.what());
     }
-    mtx.unlock();
 }
 
 void FaissDB::DeleteVectorsByIDs(size_t numOfQuery, int pids[]) {
-    mtx.lock();
     try {
         faiss::DirectMap directMap = faiss::ivflib::extract_index_ivf(faissIndex)->direct_map;
         if (directMap.type == faiss::DirectMap::Hashtable) {
@@ -183,7 +172,6 @@ void FaissDB::DeleteVectorsByIDs(size_t numOfQuery, int pids[]) {
     } catch (faiss::FaissException &exception) {
         printf("DeleteVectorsByIDs() : %s\n", exception.what());
     }
-    mtx.unlock();
 }
 
 int FaissDB::GetVectorTotal() {
@@ -192,7 +180,6 @@ int FaissDB::GetVectorTotal() {
 }
 
 void FaissDB::DumpFaissDB(const char fileName[]) {
-    mtx.lock();
     try {
         if (fileName == nullptr) {
             printf("Invalid fileName. Got: %s\n", fileName);
@@ -203,7 +190,6 @@ void FaissDB::DumpFaissDB(const char fileName[]) {
     } catch (faiss::FaissException &exception) {
         printf("DumpFaissDB() : %s\n", exception.what());
     }
-    mtx.unlock();
 }
 
 void FaissDB::ResetIndex() {
